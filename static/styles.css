@@ -1,0 +1,193 @@
+/*==============================================================================
+ * :Project:    cheese
+ * :File:       styles
+ * :Author:     Stuart Cox (stuart.cox@gmail.com)
+ * :Copyright:  public domain
+ *============================================================================*/
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+body {
+    background: #EDEADF;
+    font-size: 14px;
+	color: #534741;
+}
+
+p {
+	margin-top: 1em;
+}
+
+
+/*--------------------------------------
+ * Links
+ * -----------------------------------*/
+
+a img {
+	border: none;
+}
+
+a:link, a:visited {
+	color:#8C2F00;
+	text-decoration: underline;
+}
+
+a:hover {
+    color:#006289;
+}
+
+
+/*--------------------------------------
+ * Headings
+ * -----------------------------------*/
+
+h1 {
+	font-variant: small-caps;
+	text-shadow: 1px 1px 0 #C7B299;
+	font-size: 300%;
+	letter-spacing: 0.2em;
+}
+
+h1 a:link, h1 a:visited {
+	text-decoration: none;
+}
+
+h1 a:hover {
+	background: none;
+}
+
+h2 {
+	margin: 1em 0 0.1em;
+	border: solid #B3A66C;
+	border-width: 0 0 2px;
+}
+
+h3 {
+    margin: 0 0 1em;
+	border: solid #B3A66C;
+	border-width: 0 0 1px;
+}
+
+
+/*--------------------------------------
+ * Lists
+ * -----------------------------------*/
+ 
+ol, ul {
+	list-style-position: inside;
+}
+
+
+/*--------------------------------------
+ * Tables
+ * -----------------------------------*/
+
+table {
+	border-spacing: 0;
+	border-collapse:collapse;
+	margin: 1em 0;
+	width: 100%;
+}
+
+td, th {
+	border: 1px solid #CCCCCC;
+	padding: 0.2em 0.5em;
+}
+
+thead {
+    background: #EDEADF;
+}
+
+
+/*--------------------------------------
+ * Forms
+ * -----------------------------------*/
+
+input[type="submit"], input[type="button"] {
+    padding: 0.2em 0.5em;
+	border: 1px solid #C7B299;
+	background: #F5F0EB;
+	border-radius: 5px;
+	color: #42210B;
+}
+
+input[type="submit"]:hover, input[type="button"]:hover {
+	border-color: #534741;
+	background: #FFF;
+}
+
+input[type="text"], input[type="file"], textarea {
+	border: 1px solid #C7B299;
+	background: #FFF;
+	border-radius: 5px;
+	color: #2B2522;
+}
+
+input[disabled="disabled"] {
+	border: none;
+	background: transparent;
+	color: #978475;
+}
+
+
+/*--------------------------------------
+ * Site elements
+ * -----------------------------------*/
+
+#page {
+	width: 800px;
+	margin: 20px auto 0;
+	box-shadow: 2px 2px 7px #666;
+	border-radius: 10px 10px 0 0;
+}
+
+#content {
+    padding: 30px 30px 60px;
+	overflow: auto;
+	background: #F7F4E7;
+	border: solid #FFFFFF;
+	border-width: 0 0 0 1px;
+}
+
+#header {
+	background: #D9D6C3 url('cheese-block.png') no-repeat right bottom;
+	height: 140px;
+	border: solid #F5F1DC;
+	border-width: 1px 0 0 1px;
+	padding: 30px 40px;
+	border-radius: 10px 10px 0 0;
+}
+
+#page>hr {
+	height: 6px;
+	background: #B3A66C;
+	border: solid #E6D48B;
+	border-width: 0 0 0 1px;
+}
+
+#footer {
+	font-size: 80%;
+	background: #333;
+	color: #CCC;
+	padding: 30px 30px 50px;
+	border-left: 1px solid #888;
+	text-shadow: 1px 1px 0 #000;
+}
+
+#footer h2 {
+	margin: 0 auto 1em;
+	font-variant: small-caps;
+	border: none;
+}
+
+#footer a:link, #footer a:visited {
+	color: #FFF;
+}
+
+#footer a:hover {
+	color:#C66236;
+	background: none;
+}

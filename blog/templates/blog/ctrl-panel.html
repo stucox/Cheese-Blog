@@ -1,0 +1,42 @@
+{% extends "page.html" %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ STATIC_URL }}blog/styles.css" />
+{% endblock stylesheets %}
+{% block scripts %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}blog/blog.js"></script>
+{% endblock scripts %}
+{% block title %}{{ block.super }} - Control Panel{% endblock title %}
+{% block contentclass %}blog ctrl{% endblock contentclass %}
+{% block content %}
+<h2>Blog Control Panel</h2>
+<h3>Posts</h3>
+<p><a href="{% url blog:new-post %}">Add new post</a></p>
+{% if not posts|length %}
+<p class="hint">No posts.</p>
+{% else %}
+<form action="" method="post" enctype="multipart/form-data" id="delete_form">
+<fieldset id="ctrlPosts">{% csrf_token %}
+<table>
+<thead><tr>
+<th class="title">Title</th>
+<th class="view">View</th>
+<th class="edit">Edit</th>
+<th class="delete">Delete</th>
+</tr></thead>
+<tbody>
+{% for post in posts %}
+<tr>
+<td class="title"><a href="{{ post.get_absolute_edit_url }}">{{ post.title }}</a><p class="pubDate">Published: {{ post.pubDate|date:"SHORT_DATETIME_FORMAT" }}</p><p class="lastMod">Last modified: {{ post.lastMod|date:"SHORT_DATETIME_FORMAT" }}</p></td>
+<td class="view"><a href="{{ post.get_absolute_url }}"><img src="{{ STATIC_URL }}blog/view_icon.gif" alt="view" title="View this post" /></a></td>
+<td class="edit"><a href="{{ post.get_absolute_edit_url }}"><img src="{{ STATIC_URL }}blog/edit-icon.gif" alt="edit" title="Edit this post" /></a></td>
+<td class="delete"><input type="checkbox" name="delete" value="{{ post.slug }}" /></a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<input type="submit" value="Delete selected" id="delete_submit" />
+{% endif %}
+</fieldset>
+</form>
+{% endblock content %}

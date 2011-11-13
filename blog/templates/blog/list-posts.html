@@ -1,0 +1,15 @@
+{% extends "page.html" %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ STATIC_URL }}blog/styles.css" />
+{% endblock stylesheets %}
+{% block contentclass %}blog listPosts{% endblock contentclass %}
+{% block content %}
+<ol id="postList">
+{% for post in posts %}
+<li>
+<h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2><p class="pubDate">Published: {{ post.pubDate }}</p>
+<p class="summary">{{ post.summary }}</p>
+</li>
+{% endfor %}
+</ol>
+{% endblock content %}

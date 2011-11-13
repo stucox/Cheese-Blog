@@ -1,0 +1,154 @@
+/*==============================================================================
+ * :Project:    blog
+ * :File:       styles
+ * :Author:     Stuart Cox (stuart.cox@gmail.com)
+ * :Copyright:  public domain
+ *============================================================================*/
+
+#content.blog fieldset {
+	border: none;
+}
+
+#content.blog p.pubDate {
+	font-size: 75%;
+	margin-top: 0;
+	color: #978475;
+}
+
+#content.blog p.lastMod {
+	font-size: 75%;
+	margin-top: 0;
+	color: #978475;
+}
+
+#content.blog .hint {
+	font-style: italic;
+	color: #978475;
+}
+
+/*--------------------------------------
+ * Control panel
+ * -----------------------------------*/
+ 
+#content.blog #ctrlPosts .edit,
+#content.blog #ctrlPosts .view,
+#content.blog #ctrlPosts .delete {
+	text-align: center;
+	width: 2em;
+}
+
+#content.blog #ctrlPosts #delete_submit {
+	float: right;
+}
+
+#content.blog .hint {
+	font-variant: italics;
+}
+
+#content.blog .newPost {
+	margin-top: 2em;
+}
+
+#content.blog .back {
+	background: url('icon_back_arrow_16.gif') no-repeat left center;
+	border: 1px solid #CCC;
+	border-width: 0 0 1px;
+	padding: 0.5em 20px;
+	margin: 0 0 1em;
+}
+
+
+/*--------------------------------------
+ * Edit form
+ * -----------------------------------*/
+ 
+#content.blog.edit label {
+	display: inline-block;
+	font-size: 80%;
+	text-transform: uppercase;
+	width: 130px;
+}
+
+#content.blog.edit label {
+	margin-top: 1em;
+}
+
+#content.blog.edit label+p {
+	margin-top: 0;
+}
+
+#content.blog.edit input[type="text"],
+#content.blog.edit input[type="file"],
+#content.blog.edit textarea {
+	padding: 0.3em 5px;
+	width: 100%;
+}
+
+#content.blog.edit input[type="text"][name="slug"] {
+	width: 545px;
+}
+
+#content.blog.edit input[type="text"][name="title"] {
+	font-size: 150%;
+}
+
+#content.blog.edit textarea {
+	height: 20em;
+}
+
+#content.blog.edit input[type="submit"] {
+	display: block;
+	width: 10em;
+	margin-top: 2em;
+}
+
+#content.blog.edit .permalink {
+	font-style: italic;
+	font-size: 85%;
+}
+
+#content.blog.edit form p {
+	margin-top: 0;
+}
+
+#content.blog.edit form .successList,
+#content.blog.edit form .errorlist {
+	display: inline-block;
+	padding: 0.3em;
+	margin: 0.3em 0;
+	font-size: 80%;
+	border-radius: 5px;
+	font-style: italic;
+	list-style: none;
+	color: #FFF;
+}
+
+#content.blog.edit form .successList {
+	background: #00CC00;
+}
+
+#content.blog.edit form .errorlist {
+	background: #CC0000;
+}
+
+/*--------------------------------------
+ * Post list
+ * -----------------------------------*/
+
+#content.blog #postList {
+	
+}
+
+#content.blog #postList li {
+	list-style: none;
+	border: dotted #B3A66C;
+	border-width: 1px 0;
+	padding: 2em 0;
+	margin-top: -1px;
+}
+
+#content.blog #postList li h2 {
+	margin: 0;
+	border: none;
+}
+

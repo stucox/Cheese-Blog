@@ -1,0 +1,33 @@
+{% extends "page.html" %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ STATIC_URL }}blog/styles.css" />
+{% endblock stylesheets %}
+{% block scripts %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}blog/blog.js"></script>
+{% endblock scripts %}
+{% block title %}{{ block.super }} - Edit post{% endblock title %}
+{% block contentclass %}blog edit{% endblock contentclass %}
+{% block content %}
+<p class="back"><a href="{% url blog:ctrl-panel %}">Back to Control Panel</a></p>
+<h2>{% if post.slug %}Edit post{% else %}Add post{% endif %}</h2>
+<form action="{{ upload_url }}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+{% if successes %}<ul class="successList">{% for success in successes %}<li>{{ success }}</li>{% endfor %}</ul>{% endif %}
+<p><label for="title">{{ form.title.label }}:</label>{{ form.title.errors }}
+{{ form.title }}</p>
+
+<p><label>Permalink:</label><span class="permalink">{% if post.slug %}http://{{ request.META.HTTP_HOST }}{{ post.get_absolute_url }}
+        {% else %}A permalink will be generated when you submit the post{% endif %}</span>
+<p><label for="summary">{{ form.summary.label }}:</label>{{ form.summary.errors }}
+{{ form.summary }}</p>
+
+<p><label for="content">{{ form.content.label }}:</label>{{ form.content.errors }}
+{{ form.content }}</p>
+
+<p><label>Date published:</label><span class="pubDate">{{ post.pubDate|default_if_none:"Not yet published" }}</span></p>
+<p><label>Last modified:</label><span class="lastMod">{{ post.lastMod|default_if_none:"Not yet published" }}</span></p>
+<input type="submit" value="Submit" />
+</form>
+{% endblock content %}

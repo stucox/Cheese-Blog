@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="{{ STATIC_URL }}styles.css" />
+{% block stylesheets %}{% endblock stylesheets %}
+{% block scripts %}{% endblock scripts %}
+<title>{% block title %}Cheeses Of The World{% endblock title %}</title>
+</head>
+<body>
+<div id="page">
+<div id="header">{% block header %}
+<h1><a href="/"><img src="{{ STATIC_URL }}cheeses-of-the-world-logo.png" title="Home" alt="Cheeses Of The World"></a></h1>
+{% endblock header %}</div>
+<hr />
+<div id="content" class="{% block contentclass %}{% endblock contentclass %}">
+{% block content %}{% endblock content %}
+</div>
+<div id="footer">{% block footer %}
+<h2>About This Site</h2>
+<p>This site was built by Stuart Cox as a demonstration for <a href="http://p.ota.to/">Potato</a> and exists purely for this purpose.</p>
+<p>It was built on the <a href="http://www.djangoproject.com/">Django</a> web framework and is hosted within the <a href="http://code.google.com/appengine/">Google App Engine</a> environment. All content lovingly stolen from <a href="http://www.wikipedia.org">Wikipedia</a> according to the terms of the <a href="http://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>. All images used with permission from the respective copyright owners.</p>
+<p>I don't actually love cheese quite as much as the site makes out, but I do like it a lot. Particularly with biscuits. And pasta.</p>
+{% endblock footer %}</div>
+</div>
+</body>
+</html>

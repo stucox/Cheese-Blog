@@ -1,0 +1,16 @@
+{% extends "page.html" %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ STATIC_URL }}blog/styles.css" />
+{% endblock stylesheets %}
+{% block scripts %}
+<script type="text/javascript" src="{{ STATIC_URL }}blog/edit-post.js"></script>
+{% endblock scripts %}
+{% block title %}{{ block.super }} - {{post.title}}{% endblock title %}
+{% block contentclass %}blog view{% endblock contentclass %}
+{% block content %}
+<p class="back"><a href="{% url blog:list-posts %}">Back to post list</a></p>
+<h2>{{ post.title }}</h2>
+<p class="pubDate">Published: {{ post.pubDate|date:"SHORT_DATETIME_FORMAT" }}</p>
+<p class="lastMod">Last modified: {{ post.lastMod|date:"SHORT_DATETIME_FORMAT" }}</p>
+<blockquote>{{ post.content|safe }}</blockquote>
+{% endblock content %}

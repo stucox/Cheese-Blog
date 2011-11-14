@@ -11,7 +11,7 @@
 {% block content %}
 <h2>Blog Control Panel</h2>
 <h3>Posts</h3>
-<p><a href="{% url blog:new-post %}">Add new post</a></p>
+<p class="newPost"><a href="{% url blog:new-post %}">Add new post</a></p>
 {% if not posts|length %}
 <p class="hint">No posts.</p>
 {% else %}

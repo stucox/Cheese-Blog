@@ -45,8 +45,19 @@
 	font-variant: italics;
 }
 
-#content.blog .newPost {
+#content.blog .newPost a {
 	margin-top: 2em;
+    padding: 0.2em 0.5em;
+	border: 1px solid #C7B299;
+	background: #F5F0EB;
+	border-radius: 5px;
+	color: #42210B;
+}
+
+#content.blog .newPost a:hover {
+	border-color: #534741;
+	background: #FFF;
+	box-shadow: 0px 2px 1px #CCC;
 }
 
 #content.blog .back {

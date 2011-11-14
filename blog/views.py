@@ -13,7 +13,7 @@ __docformat__ = "restructuredtext"
 import datetime
 
 from django.forms import ModelForm, FileInput
-from django.http import HttpResponse, Http404
+from django.http import Http404
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.template.defaultfilters import slugify
@@ -26,6 +26,12 @@ VIEW_POST_TEMPLATE = "blog/view-post.html"
 LIST_POSTS_TEMPLATE = "blog/list-posts.html"
 CTRL_PANEL_TEMPLATE = "blog/ctrl-panel.html"
 
+# Success messages; removed from relevant functions to make it easier to replace
+# with messages in different languages at a later date
+SUCCESS_POST_CREATED = "Post created successfully."
+SUCCESS_POST_UPDATED = "Post updated successfully."
+
+
 class PostOrder(object):
     """Post sort orders, used when multiple posts are viewed"""
     NEWEST_FIRST = "-pubDate"
@@ -34,14 +40,17 @@ class PostOrder(object):
 
 
 class PostEditForm(ModelForm):
+    """Django form for editing blog posts"""
+    # Link to Post model; this allows us to easily populate the form with a
+    # given post
     class Meta:
         model = Post
         fields = ('title', 'summary', 'content')
 
 
-#########################
-## HTML View Functions ##
-#########################
+####################
+## View Functions ##
+####################
 
 def listPosts(request, max=None, order=PostOrder.NEWEST_FIRST):
     """
@@ -98,8 +107,8 @@ def editPost(request, slug=None):
             # database
             post.save()
             # Add a message to the success list
-            successes.append("Post created successfully." if isNewPost else \
-                    "Post updated successfully.")
+            successes.append(SUCCESS_POST_CREATED if isNewPost else \
+                    SUCCESS_POST_UPDATED)
             #return redirect("blog:edit-post", slug=post.slug)
     else:
         # If not a new post, create a form bound to the instance grabbed earlier
@@ -143,11 +152,6 @@ def ctrlPanel(request, order=PostOrder.NEWEST_FIRST):
     return render_to_response(CTRL_PANEL_TEMPLATE, {'posts': posts},\
             context_instance=RequestContext(request))
 
-def dlPostImage(request, pk):
-    """Download handler for serving uploaded post images."""
-    upload = get_object_or_404(PostImage, pk=pk)
-    return serve_file(request, upload.file)
-
 
 ######################
 ## HELPER FUNCTIONS ##
@@ -183,9 +187,3 @@ def checkPostSlug(slug, disallowed=[]):
     """
     # TODO: thorough checking of slug format
     return Post.objects.filter(slug=slug).exists() and not slug in disallowed
-
-def saveImageFile(f):
-    destination = open('some/file/name.txt', 'wb+')
-    for chunk in f.chunks():
-        destination.write(chunk)
-    destination.close()

@@ -32,6 +32,4 @@ urlpatterns = patterns("blog.views",
     # ensure a 404 is returned, but could be replaced with an appropriate valid
     # page    
     url(r"^post/$", "viewPost", name="view-post-base", kwargs={'slug':None}),
-    # Image download serv
-    url(r"^media/blog/(?P<filename>[A-Za-z0-9_-]+.(jpg|gif|png))$", "dlPostImage", name="post-image"),
 )

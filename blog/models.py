@@ -4,13 +4,10 @@
 # :Author:      Stuart Cox (stuart.cox@gmail.com)
 # :Copyright:   public domain
 #===============================================================================
-"""Models used by blog app."""
+"""Models for blog app."""
 
 __docformat__ = "restructuredtext"
 
-import os
-
-from django.core.urlresolvers import reverse
 from django.db import models
 
 
@@ -53,6 +50,8 @@ class Post(models.Model):
     @models.permalink
     def get_absolute_edit_url(self):
         """Return post's edit page URL"""
+        # If a slug is defined, redirect to the edit page for that slug,
+        # otherwise redirect to the new post page
         if self.slug:
             return ("blog:edit-post", (), {'slug': self.slug})
         else:

@@ -12,7 +12,7 @@ __docformat__ = "restructuredtext"
 from django.conf.urls.defaults import patterns, include, url
 
 urlpatterns = patterns("",
-    # tinymce wysiwyg editor URLs
+    # tinyMCE wysiwyg editor URLs
     url(r"^tinymce/", include("tinymce.urls")),
     # Forward all other URL requests to blog app
     url(r"^", include("blog.urls", namespace="blog", app_name="blog")),

@@ -152,7 +152,7 @@ LOGGING = {
     }
 }
 
-# tinymce configuration
+# tinyMCE configuration
 TINYMCE_DEFAULT_CONFIG = {
     'plugins': "table,spellchecker,paste,searchreplace",
     'theme': "simple",

@@ -52,6 +52,7 @@
 	background: #F5F0EB;
 	border-radius: 5px;
 	color: #42210B;
+	text-decoration: none;
 }
 
 #content.blog .newPost a:hover {

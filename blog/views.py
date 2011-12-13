@@ -12,7 +12,7 @@ __docformat__ = "restructuredtext"
 
 import datetime
 
-from django.forms import ModelForm, FileInput
+from django import forms
 from django.http import Http404
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
@@ -39,14 +39,12 @@ class PostOrder(object):
     RANDOM = "?"
 
 
-class PostEditForm(ModelForm):
+class PostEditForm(forms.Form):
     """Django form for editing blog posts"""
-    # Link to Post model; this allows us to easily populate the form with a
-    # given post
-    class Meta:
-        model = Post
-        fields = ('title', 'summary', 'content')
-
+    content = forms.CharField(widget=forms.Textarea)
+    title = forms.CharField()
+    summary = forms.CharField()
+ 
 
 ####################
 ## View Functions ##
@@ -63,7 +61,7 @@ def listPosts(request, max=None, order=PostOrder.NEWEST_FIRST):
     - `order`: a member of the PostOrder enum class defining the sorting order
       of posts in the list; defaults to newest first.
     """
-    posts = Post.objects.all().order_by(order)[:max]
+    posts = Post.all().order(order).fetch(max)
     return render_to_response(LIST_POSTS_TEMPLATE, {'posts': posts},
             context_instance=RequestContext(request))
 
@@ -84,28 +82,37 @@ def editPost(request, slug=None):
     # If it's a new post, create an empty instance to play with; this will only
     # be written to the database if data has been submitted
     if isNewPost:
-        post = Post()
+        post = None
     # If not a new post, try to get the blog post with the provided slug
-    else:
-        post = get_object_or_404(Post, slug=slug)
+    if not isNewPost:
+        post = Post.all().filter("slug =", slug).get()
+        if not post:
+            raise Http404
     # If there's POST data, changes have been submitted so create/update the
     # post
     if request.method == "POST":
         # Parse the POST data with the form then store validated fields
-        form = PostEditForm(request.POST, instance=post)
+        form = PostEditForm(request.POST)
         if form.is_valid():
             # Create a post instance using the validated form data
-            post = form.save(commit=False)
-            # Add fields which don't come from the form
-            post.lastMod = datetime.datetime.now()
             # Only set the publish date and slug if this is a new post; these
             # can't be changed afterwards
             if isNewPost:
-                post.pubDate = datetime.datetime.now()
-                post.slug = getUniquePostSlug(form.cleaned_data['title'])
+                post = Post(
+                    content=form.cleaned_data["content"],
+                    title=form.cleaned_data["title"],
+                    summary=form.cleaned_data["summary"],
+                    slug=getUniquePostSlug(form.cleaned_data['title']),
+                    pubDate=datetime.datetime.now(),
+                    lastMod=datetime.datetime.now(),
+                )
+            else:
+                post.content = form.cleaned_data["content"]
+                post.title = form.cleaned_data["title"]
+                post.summary = form.cleaned_data["summary"]
             # Changes have only been made to instances in memory, so save to
             # database
-            post.save()
+            post.put()
             # Add a message to the success list
             successes.append(SUCCESS_POST_CREATED if isNewPost else \
                     SUCCESS_POST_UPDATED)
@@ -113,7 +120,11 @@ def editPost(request, slug=None):
     else:
         # If not a new post, create a form bound to the instance grabbed earlier
         if not isNewPost:
-            form = PostEditForm(instance=post)
+            form = PostEditForm({
+                    "content": post.content,
+                    "title": post.title,
+                    "summary": post.summary,
+                    })
         # Otherwise create an unbound form to build the page with
         else:
             form = PostEditForm()
@@ -131,7 +142,9 @@ def viewPost(request, slug):
     """
     if slug is None:
         raise Http404
-    post = get_object_or_404(Post, slug=slug)
+    post = Post.all().filter("slug =", slug).get()
+    if not post:
+        raise Http404
     return render_to_response(VIEW_POST_TEMPLATE, {'post': post},\
             context_instance=RequestContext(request))
     
@@ -144,11 +157,11 @@ def ctrlPanel(request, order=PostOrder.NEWEST_FIRST):
     - `order`: a member of the PostOrder enum class defining the sorting order
       of posts in the list; defaults to newest first.
     """
-    posts = Post.objects.all().order_by(order)
+    posts = [post for post in Post.all().order(order)]
     # If the request contains POST data, perform any necessary post deletions
     if request.method == "POST":
         for slug in request.POST.getlist('delete'):
-            posts.get(slug=slug).delete()
+            filter(lambda post: post.slug == slug)[0].delete()
     return render_to_response(CTRL_PANEL_TEMPLATE, {'posts': posts},\
             context_instance=RequestContext(request))
 
@@ -171,7 +184,7 @@ def getUniquePostSlug(srcString, disallowed=[]):
     suffixNum = 0
     while True:
         suffix = "-%d" % suffixNum if suffixNum else ""
-        slug = slugify(srcString + suffix)
+        slug = str(slugify(srcString + suffix))
         if not checkPostSlug(slug, disallowed):
             break
         suffixNum += 1
@@ -186,4 +199,5 @@ def checkPostSlug(slug, disallowed=[]):
     - `disallowed`: a list of string which should not be allowed as slugs
     """
     # TODO: thorough checking of slug format
-    return Post.objects.filter(slug=slug).exists() and not slug in disallowed
+    return Post.all().filter("slug =", slug).count() \
+            and not slug in disallowed

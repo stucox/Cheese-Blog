@@ -9,38 +9,39 @@
 __docformat__ = "restructuredtext"
 
 from django.db import models
+from google.appengine.ext import db
 
 
-class User(models.Model):
+class User(db.Model):
     """
     A blog user. To be used for editors, VIP visitors, mailing list members etc.
     """
-    name = models.CharField(max_length=100)
-    nickname = models.CharField(max_length=50)
-    email = models.EmailField()
+    name = db.StringProperty(required=True)
+    nickname = db.StringProperty(required=True)
+    email = db.EmailProperty(required=True)
 
 
-class PostImage(models.Model):
+class PostImage(db.Model):
     """
     An image for use in a post. Currently just used for title images, but
     could also be used for incidental images.
     """
-    file = models.ImageField(upload_to="blog/post-images/")
-    caption = models.CharField(max_length=200, blank=True)
-    alt = models.CharField(max_length=100, blank=True)
+    file = db.BlobProperty(required=True)
+    caption = db.StringProperty(required=True)
+    alt = db.StringProperty(required=True)
 
 
-class Post(models.Model):
+class Post(db.Model):
     """A blog post with all associated metadata."""
     ## Fields ##
-    content = models.TextField()
-    title = models.CharField(max_length=100)
-    summary = models.CharField(max_length=200)
-    author = models.ForeignKey(User, null=True)
-    image = models.ForeignKey(PostImage, null=True)
-    pubDate = models.DateTimeField("date published")
-    lastMod = models.DateTimeField("last modified")
-    slug = models.SlugField(primary_key=True)
+    content = db.TextProperty(required=True)
+    title = db.StringProperty(required=True)
+    summary = db.StringProperty(required=True)
+    author = db.ReferenceProperty(User)
+    image = db.ReferenceProperty(PostImage)
+    pubDate = db.DateTimeProperty("date published", required=True)
+    lastMod = db.DateTimeProperty("last modified", required=True)
+    slug = db.StringProperty(required=True)
     
     @models.permalink
     def get_absolute_url(self):

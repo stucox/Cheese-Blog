@@ -7,6 +7,10 @@ threadsafe: yes
 builtins:
 - remote_api: on
 
+libraries:
+- name: django
+  version: latest
+
 inbound_services:
 - warmup
 

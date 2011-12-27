@@ -1,9 +1,11 @@
 import os
 
-# Initialize App Engine and import the default settings (DB backend, etc.).
-from djangoappengine.settings_base import *
+### Initialize App Engine and import the default settings (DB backend, etc.).
+#from djangoappengine.settings_base import *
 
-DEBUG = False
+# Set by main.py to '1' on dev and '0' on production
+DJANGO_DEBUG = os.environ.get('DJANGO_DEBUG', '1')
+DEBUG = bool(int(DJANGO_DEBUG))
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -12,8 +14,8 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES["native"] = DATABASES["default"]
-DATABASES["default"] = {"ENGINE": "dbindexer", "TARGET": "native"}
+#DATABASES["native"] = DATABASES["default"]
+#DATABASES["default"] = {"ENGINE": "dbindexer", "TARGET": "native"}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -73,9 +75,9 @@ STATICFILES_DIRS = (
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
-    "django.contrib.staticfiles.finders.FileSystemFinder",
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-#    "django.contrib.staticfiles.finders.DefaultStorageFinder",
+    "staticfiles.finders.FileSystemFinder",
+    "staticfiles.finders.AppDirectoriesFinder",
+#    "staticfiles.finders.DefaultStorageFinder",
 )
 
 # Make this unique, and don"t share it with anybody.
@@ -92,11 +94,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.request",
     "django.core.context_processors.media",
-    "django.core.context_processors.static",
+    "staticfiles.context_processors.static",
 )
 
 MIDDLEWARE_CLASSES = (
-    "autoload.middleware.AutoloadMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -116,18 +117,15 @@ INSTALLED_APPS = (
     "django.contrib.sessions",
     "django.contrib.sites",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "djangotoolbox",
-    "autoload",
-    "dbindexer",
+    "staticfiles",
     "blog",
     "tinymce",
-    "djangoappengine",
+    #"djangoappengine",
 )
 
 # This test runner captures stdout and associates tracebacks with their
 # corresponding output. Helps a lot with print-debugging.
-TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
+#TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

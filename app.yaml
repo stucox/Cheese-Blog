@@ -15,15 +15,8 @@ inbound_services:
 - warmup
 
 handlers:
-- url: /_ah/queue/deferred
-  script: djangoappengine.deferred.handler.application
-  login: admin
-
-- url: /_ah/stats/.*
-  script: djangoappengine.appstats.application
-  
 - url: /static
   static_dir: static
 
 - url: /.*
-  script: djangoappengine.main.application
+  script: main.app
